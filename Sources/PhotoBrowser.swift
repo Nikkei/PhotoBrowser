@@ -84,7 +84,7 @@ open class PhotoBrowser: UIViewController {
         }()
 
     var screenBounds: CGRect {
-        return UIScreen.main.bounds
+        return self.view.frame
     }
 
     // MARK: - Properties
@@ -272,7 +272,8 @@ open class PhotoBrowser: UIViewController {
 
     // MARK: - Layout
 
-    open func configureLayout(_ size: CGSize = UIScreen.main.bounds.size) {
+    open func configureLayout(_ size: CGSize? = nil) {
+        let size = size ?? self.view.frame.size
         scrollView.frame.size = size
         scrollView.contentSize = CGSize(
             width: size.width * CGFloat(numberOfPages) + spacing * CGFloat(numberOfPages - 1),
