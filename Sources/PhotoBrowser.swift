@@ -24,7 +24,7 @@ open class PhotoBrowser: UIViewController {
 
     lazy var scrollView: UIScrollView = { [unowned self] in
         let scrollView = UIScrollView()
-        scrollView.frame = self.screenBounds
+        scrollView.frame = self.view.frame
         scrollView.isPagingEnabled = false
         scrollView.delegate = self
         scrollView.isUserInteractionEnabled = true
@@ -82,10 +82,6 @@ open class PhotoBrowser: UIViewController {
 
         return view
         }()
-
-    var screenBounds: CGRect {
-        return self.view.frame
-    }
 
     // MARK: - Properties
 
@@ -353,7 +349,7 @@ extension PhotoBrowser: UIScrollViewDelegate {
         }
 
         targetContentOffset.pointee.x = x
-        currentPage = Int(x / screenBounds.width)
+        currentPage = Int(x / self.view.frame.width)
     }
 }
 
@@ -411,7 +407,7 @@ extension PhotoBrowser: HeaderViewDelegate {
 
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             self.configureLayout()
-            self.currentPage = Int(self.scrollView.contentOffset.x / self.screenBounds.width)
+            self.currentPage = Int(self.scrollView.contentOffset.x / self.view.frame.width)
             deleteButton.isEnabled = true
         }
     }
@@ -429,7 +425,7 @@ extension PhotoBrowser: HeaderViewDelegate {
 extension PhotoBrowser: FooterViewDelegate {
 
     public func footerView(_ footerView: FooterView, didExpand expanded: Bool) {
-        footerView.frame.origin.y = screenBounds.height - footerView.frame.height
+        footerView.frame.origin.y = self.view.frame.height - footerView.frame.height
 
         UIView.animate(withDuration: 0.25, animations: {
             self.overlayView.alpha = expanded ? 1.0 : 0.0
