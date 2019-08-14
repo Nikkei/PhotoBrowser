@@ -24,7 +24,7 @@ open class PhotoBrowser: UIViewController {
 
     lazy var scrollView: UIScrollView = { [unowned self] in
         let scrollView = UIScrollView()
-        scrollView.frame = self.screenBounds
+        scrollView.frame = self.view.frame
         scrollView.isPagingEnabled = false
         scrollView.delegate = self
         scrollView.isUserInteractionEnabled = true
@@ -82,10 +82,6 @@ open class PhotoBrowser: UIViewController {
 
         return view
         }()
-
-    var screenBounds: CGRect {
-        return UIScreen.main.bounds
-    }
 
     // MARK: - Properties
 
@@ -272,7 +268,8 @@ open class PhotoBrowser: UIViewController {
 
     // MARK: - Layout
 
-    open func configureLayout(_ size: CGSize = UIScreen.main.bounds.size) {
+    open func configureLayout(_ size: CGSize? = nil) {
+        let size = size ?? self.view.frame.size
         scrollView.frame.size = size
         scrollView.contentSize = CGSize(
             width: size.width * CGFloat(numberOfPages) + spacing * CGFloat(numberOfPages - 1),
@@ -352,7 +349,7 @@ extension PhotoBrowser: UIScrollViewDelegate {
         }
 
         targetContentOffset.pointee.x = x
-        currentPage = Int(x / screenBounds.width)
+        currentPage = Int(x / self.view.frame.width)
     }
 }
 
@@ -410,7 +407,7 @@ extension PhotoBrowser: HeaderViewDelegate {
 
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             self.configureLayout()
-            self.currentPage = Int(self.scrollView.contentOffset.x / self.screenBounds.width)
+            self.currentPage = Int(self.scrollView.contentOffset.x / self.view.frame.width)
             deleteButton.isEnabled = true
         }
     }
@@ -428,7 +425,7 @@ extension PhotoBrowser: HeaderViewDelegate {
 extension PhotoBrowser: FooterViewDelegate {
 
     public func footerView(_ footerView: FooterView, didExpand expanded: Bool) {
-        footerView.frame.origin.y = screenBounds.height - footerView.frame.height
+        footerView.frame.origin.y = self.view.frame.height - footerView.frame.height
 
         UIView.animate(withDuration: 0.25, animations: {
             self.overlayView.alpha = expanded ? 1.0 : 0.0
