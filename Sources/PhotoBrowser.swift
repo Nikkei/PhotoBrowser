@@ -174,6 +174,7 @@ open class PhotoBrowser: UIViewController {
         transitionManager.PhotoBrowser = self
         transitionManager.scrollView = scrollView
         transitioningDelegate = transitionManager
+        modalPresentationStyle = .fullScreen
 
         [scrollView, overlayView, headerView, footerView].forEach { view.addSubview($0) }
         overlayView.addGestureRecognizer(overlayTapGestureRecognizer)
