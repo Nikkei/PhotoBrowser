@@ -24,7 +24,6 @@ open class PhotoBrowser: UIViewController {
 
     lazy var scrollView: UIScrollView = { [unowned self] in
         let scrollView = UIScrollView()
-        scrollView.frame = self.view.frame
         scrollView.isPagingEnabled = false
         scrollView.delegate = self
         scrollView.isUserInteractionEnabled = true
@@ -32,14 +31,14 @@ open class PhotoBrowser: UIViewController {
         scrollView.decelerationRate = UIScrollView.DecelerationRate.fast
 
         return scrollView
-        }()
+    }()
 
     lazy var overlayTapGestureRecognizer: UITapGestureRecognizer = { [unowned self] in
         let gesture = UITapGestureRecognizer()
         gesture.addTarget(self, action: #selector(overlayViewDidTap(_:)))
 
         return gesture
-        }()
+    }()
 
     lazy var effectView: UIVisualEffectView = {
         let effect = UIBlurEffect(style: .dark)
@@ -63,14 +62,14 @@ open class PhotoBrowser: UIViewController {
         view.delegate = self
 
         return view
-        }()
+    }()
 
     open fileprivate(set) lazy var footerView: FooterView = { [unowned self] in
         let view = FooterView()
         view.delegate = self
 
         return view
-        }()
+    }()
 
     open fileprivate(set) lazy var overlayView: UIView = { [unowned self] in
         let view = UIView(frame: CGRect.zero)
@@ -81,7 +80,7 @@ open class PhotoBrowser: UIViewController {
         view.alpha = 0
 
         return view
-        }()
+    }()
 
     // MARK: - Properties
 
@@ -111,14 +110,8 @@ open class PhotoBrowser: UIViewController {
 
     open var dynamicBackground: Bool = false {
         didSet {
-            if dynamicBackground == true {
-                effectView.frame = view.frame
-                backgroundView.frame = effectView.frame
-                view.insertSubview(effectView, at: 0)
-                view.insertSubview(backgroundView, at: 0)
-            } else {
-                effectView.removeFromSuperview()
-                backgroundView.removeFromSuperview()
+            if isViewLoaded {
+                self.configureDynamicBackground()
             }
         }
     }
@@ -157,6 +150,7 @@ open class PhotoBrowser: UIViewController {
         self.initialImages = images
         self.initialPage = index
         super.init(nibName: nil, bundle: nil)
+        self.modalPresentationStyle = .fullScreen
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -168,16 +162,18 @@ open class PhotoBrowser: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        scrollView.frame = view.frame
         statusBarHidden = UIApplication.shared.isStatusBarHidden
 
         view.backgroundColor = UIColor.black
         transitionManager.PhotoBrowser = self
         transitionManager.scrollView = scrollView
         transitioningDelegate = transitionManager
-        modalPresentationStyle = .fullScreen
 
         [scrollView, overlayView, headerView, footerView].forEach { view.addSubview($0) }
         overlayView.addGestureRecognizer(overlayTapGestureRecognizer)
+
+        configureDynamicBackground()
 
         configurePages(initialImages)
         currentPage = initialPage
@@ -307,6 +303,18 @@ open class PhotoBrowser: UIViewController {
 
         overlayView.frame = scrollView.frame
         overlayView.resizeGradientLayer()
+    }
+
+    fileprivate func configureDynamicBackground() {
+        if dynamicBackground == true {
+            effectView.frame = view.frame
+            backgroundView.frame = effectView.frame
+            view.insertSubview(effectView, at: 0)
+            view.insertSubview(backgroundView, at: 0)
+        } else {
+            effectView.removeFromSuperview()
+            backgroundView.removeFromSuperview()
+        }
     }
 
     fileprivate func loadDynamicBackground(_ image: UIImage) {
