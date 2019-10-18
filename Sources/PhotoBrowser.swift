@@ -31,14 +31,14 @@ open class PhotoBrowser: UIViewController {
         scrollView.decelerationRate = UIScrollView.DecelerationRate.fast
 
         return scrollView
-        }()
+    }()
 
     lazy var overlayTapGestureRecognizer: UITapGestureRecognizer = { [unowned self] in
         let gesture = UITapGestureRecognizer()
         gesture.addTarget(self, action: #selector(overlayViewDidTap(_:)))
 
         return gesture
-        }()
+    }()
 
     lazy var effectView: UIVisualEffectView = {
         let effect = UIBlurEffect(style: .dark)
@@ -62,14 +62,14 @@ open class PhotoBrowser: UIViewController {
         view.delegate = self
 
         return view
-        }()
+    }()
 
     open fileprivate(set) lazy var footerView: FooterView = { [unowned self] in
         let view = FooterView()
         view.delegate = self
 
         return view
-        }()
+    }()
 
     open fileprivate(set) lazy var overlayView: UIView = { [unowned self] in
         let view = UIView(frame: CGRect.zero)
@@ -80,7 +80,7 @@ open class PhotoBrowser: UIViewController {
         view.alpha = 0
 
         return view
-        }()
+    }()
 
     // MARK: - Properties
 
