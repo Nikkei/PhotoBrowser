@@ -150,6 +150,7 @@ open class PhotoBrowser: UIViewController {
         self.initialImages = images
         self.initialPage = index
         super.init(nibName: nil, bundle: nil)
+        self.modalPresentationStyle = .fullScreen
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -168,7 +169,6 @@ open class PhotoBrowser: UIViewController {
         transitionManager.PhotoBrowser = self
         transitionManager.scrollView = scrollView
         transitioningDelegate = transitionManager
-        modalPresentationStyle = .fullScreen
 
         [scrollView, overlayView, headerView, footerView].forEach { view.addSubview($0) }
         overlayView.addGestureRecognizer(overlayTapGestureRecognizer)
