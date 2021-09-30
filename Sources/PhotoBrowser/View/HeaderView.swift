@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol HeaderViewDelegate: class {
+protocol HeaderViewDelegate: AnyObject {
     func headerView(_ headerView: HeaderView, didPressDeleteButton deleteButton: UIButton)
     func headerView(_ headerView: HeaderView, didPressCloseButton closeButton: UIButton)
 }

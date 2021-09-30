@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol PageViewDelegate: class {
+protocol PageViewDelegate: AnyObject {
     func pageViewDidZoom(_ pageView: PageView)
     func remoteImageDidLoad(_ image: UIImage?)
     func pageView(_ pageView: PageView, didTouchPlayButton videoURL: URL)
