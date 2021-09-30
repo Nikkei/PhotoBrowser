@@ -7,15 +7,15 @@
 
 import UIKit
 
-public protocol PhotoBrowserControllerPageDelegate: class {
+public protocol PhotoBrowserControllerPageDelegate: AnyObject {
     func PhotoBrowser(_ browser: PhotoBrowser, didMoveToPage page: Int)
 }
 
-public protocol PhotoBrowserControllerDismissalDelegate: class {
+public protocol PhotoBrowserControllerDismissalDelegate: AnyObject {
     func PhotoBrowserWillDismiss(_ browser: PhotoBrowser)
 }
 
-public protocol PhotoBrowserControllerTouchDelegate: class {
+public protocol PhotoBrowserControllerTouchDelegate: AnyObject {
     func PhotoBrowser(_ browser: PhotoBrowser, didTouch image: PhotoImage, at index: Int)
 }
 
