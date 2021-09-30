@@ -1,20 +1,17 @@
-PhotoBrowser
-===================================
+# PhotoBrowser
 
 ## Requirements
 
-- iOS 10.0+
+- iOS 13.0+
 - Swift 5
 
-## How to use
+## Installation
 
-### Carthage
+There are several ways to intergrate PhotoBrowser into your project.
 
-To integrate PhotoBrowser into your Xcode project using Carthage, specify it in your Cartfile:
+- **Carthage**: add `github "Nikkei/PhotoBrowser"` to your `Cartfile`
 
-```ruby
-github "Nikkei/PhotoBrowser"
-```````
+- **Swift Package Manager**: add a dependency to your `Project.swift`: `.package(url: "https://github.com/Nikkei/PhotoBrowser.git", from: "1.2.0")`
 
 ## License
 
