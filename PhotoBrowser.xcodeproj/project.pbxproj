@@ -158,7 +158,8 @@
 			children = (
 				C5AE3A401E96301B00EBFC6C /* PhotoBrowser.bundle */,
 			);
-			path = Resources;
+			name = Resources;
+			path = Sources/PhotoBrowser/Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

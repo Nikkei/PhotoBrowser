@@ -17,7 +17,8 @@ let package = Package(
     targets: [
         .target(
             name: "PhotoBrowser",
-            dependencies: []),
+            dependencies: [],
+            resources: [.process("Resources")]),
         .testTarget(
             name: "PhotoBrowserTests",
             dependencies: ["PhotoBrowser"]),
