@@ -13,10 +13,15 @@ open class PhotoConfig {
 
     public static var hideStatusBar = true
 
-    public static var loadImage: (_ imageView: UIImageView, _ URL: URL, _ completion: LoadImageCompletion?) -> Void = {
-        imageView, URL, completion in
+    public static var loadImage: (_ imageView: UIImageView, _ URL: URL, _ authToken: String?, _ completion: LoadImageCompletion?) -> Void = {
+        imageView, URL, authToken, completion in
 
-        let imageRequest: URLRequest = URLRequest(url: URL)
+        var imageRequest = URLRequest(url: URL)
+
+        // authToken がある場合は Authorization ヘッダーに追加する
+        if let authToken = authToken {
+            imageRequest.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+        }
 
         URLSession.shared.dataTask(with: imageRequest, completionHandler: { (data, response, error) in
 

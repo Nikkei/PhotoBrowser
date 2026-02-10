@@ -13,6 +13,7 @@ open class PhotoImage: ImageAnalysisInteractionDelegate {
     open fileprivate(set) var imageURL: URL?
     open fileprivate(set) var videoURL: URL?
     open fileprivate(set) var isEnabledAnalyzer: Bool
+    open fileprivate(set) var authToken: String?
     open var text: String
 
     // MARK: - Initialization
@@ -21,6 +22,7 @@ open class PhotoImage: ImageAnalysisInteractionDelegate {
         self.image = image
         self.text = text
         self.videoURL = videoURL
+        self.authToken = nil
         if #available(iOS 16.0, *) {
             self.isEnabledAnalyzer = isEnabledAnalyzer
         } else {
@@ -28,10 +30,11 @@ open class PhotoImage: ImageAnalysisInteractionDelegate {
         }
     }
 
-    public init(imageURL: URL, text: String = "", videoURL: URL? = nil, isEnabledAnalyzer: Bool = false) {
+    public init(imageURL: URL, text: String = "", videoURL: URL? = nil, authToken: String? = nil, isEnabledAnalyzer: Bool = false) {
         self.imageURL = imageURL
         self.text = text
         self.videoURL = videoURL
+        self.authToken = authToken
         if #available(iOS 16.0, *) {
             self.isEnabledAnalyzer = isEnabledAnalyzer
         } else {
@@ -49,7 +52,7 @@ open class PhotoImage: ImageAnalysisInteractionDelegate {
             }
             completion?(image)
         } else if let imageURL = imageURL {
-            PhotoConfig.loadImage(imageView, imageURL) { error, image in
+            PhotoConfig.loadImage(imageView, imageURL, authToken) { error, image in
                 if #available(iOS 16.0, *) {
                     Task {
                         guard let image else { return }
